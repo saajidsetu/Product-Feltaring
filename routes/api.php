@@ -25,7 +25,6 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function() {
     Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
     // Route::get('user-profile', 'App\Http\Controllers\AuthController@userProfile');
     Route::get('employees', 'App\Http\Controllers\EmployeeController@employeeInfo');
-    Route::post('products', 'App\Http\Controllers\ProductController@products');
 });
 
 
