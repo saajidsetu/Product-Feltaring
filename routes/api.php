@@ -2,9 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controller\DataController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -17,17 +14,22 @@ use App\Http\Controller\DataController;
 |
 */
 
-    Route::post('register', [UserController::class, 'register']);
-    Route::post('login', [UserController::class,'authenticate']);
-    Route::get('open', [DataController::class,'open']);
-
-    
-    Route::group(['middleware' => ['jwt.verify']], function() {
-        Route::get('user', [UserController::class, 'getAuthenticatedUser']);
-        Route::get('closed', 'DataController@closed');
-    });
-
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+Route::group(['middleware' => 'api','prefix' => 'auth'], function() {
+    Route::post('login', 'App\Http\Controllers\AuthController@login');
+    Route::post('register', 'App\Http\Controllers\AuthController@register');
+    Route::post('logout', 'App\Http\Controllers\AuthController@logout');
+    Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
+    // Route::get('user-profile', 'App\Http\Controllers\AuthController@userProfile');
+    Route::get('employees', 'App\Http\Controllers\EmployeeController@employeeInfo');
+    Route::post('products', 'App\Http\Controllers\ProductController@products');
+});
+
+
+// public api
+// write your public api route
+Route::get('products', 'App\Http\Controllers\ProductController@products');
+
